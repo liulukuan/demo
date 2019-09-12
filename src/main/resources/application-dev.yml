@@ -1,0 +1,89 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      first:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/dynamic1?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+        username: root
+        password: 123456
+      second:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/dynamic2?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+        username: root
+        password: 123456
+#      third:
+#        driver-class-name: oracle.jdbc.driver.OracleDriver
+#        url: jdbc:oracle:thin:@localhost:1521:platform
+#        username: root
+#        password: 123456
+
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 30000
+      time-between-eviction-runs-millis: 60000 # 可关闭的空闲连接间隔时间
+      min-evictable-idle-time-millis: 300000 # 连接在池中最小生存时间
+
+      # 是否缓存preparedStatement 在mysql的环境下建议关闭 因为对数据库性能消耗大
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      max-pool-prepared-statement-per-connection-size: 20
+
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+
+      stat-view-servlet:
+        enabled: true
+        reset-enable: false
+        url-pattern: /druid/*
+        login-username: druid
+        login-password: 123456
+
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 5000ms
+    lettuce:
+      pool:
+        max-active: 100
+        max-wait: -1ms
+        max-idle: 100
+        min-idle: 0
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: 123456
+
+# actuator 暴露监控访问接口，默认是/health和/info
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# actuator 描述信息
+info:
+  blog-url: http://127.0.0.1
+  outhor: LiuLukuan
+  version: @project.version@
+
