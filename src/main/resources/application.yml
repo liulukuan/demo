@@ -11,7 +11,12 @@ spring:
     active: dev
 
 # mybatis-plus
-mybatis-plus:
+#mybatis-plus:
+#  type-aliases-package: com.example.damo.business.entity
+#  mapper-locations: classpath:mappers/*.xml
+#  check-config-location: true
+mybatis:
   type-aliases-package: com.example.damo.business.entity
-  mapper-locations: classpath:mappers/*.xml
-  check-config-location: true
+  mapperLocations: classpath:mappers/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
