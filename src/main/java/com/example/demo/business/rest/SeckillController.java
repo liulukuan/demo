@@ -26,11 +26,11 @@ public class SeckillController {
     public String seckill() {
 
         String lockKey = "lockKey";
-        String lockID = UUID.randomUUID().toString();
+        String lockId = UUID.randomUUID().toString();
         String stockKey = "stock";
 
         try {
-            boolean result = redisTemplate.opsForValue().setIfAbsent(lockKey, lockID, 2, TimeUnit.SECONDS);
+            boolean result = redisTemplate.opsForValue().setIfAbsent(lockKey, lockId, 2, TimeUnit.SECONDS);
             if (!result) {
                 return "";
             }
@@ -44,7 +44,7 @@ public class SeckillController {
                 System.out.println("库存不足!");
             }
         } finally {
-            if (lockID.equals(redisTemplate.opsForValue().get(lockKey))) {
+            if (lockId.equals(redisTemplate.opsForValue().get(lockKey))) {
                 redisTemplate.delete(lockKey);
             }
         }
